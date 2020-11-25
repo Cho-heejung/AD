@@ -10,10 +10,6 @@ class Button(QToolButton):
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         self.setText(text)
         self.clicked.connect(callback)
-        self.cnt = 0
-        self.age = 0
-        self.stress = 0
-        self.all = 60
 
     def sizeHint(self):
         size = super(Button, self).sizeHint()
@@ -27,7 +23,7 @@ class Tamagotchi(QWidget):
         self.cnt = 0
         self.age = 1
         self.stress = 0
-        self.all = 100
+        self.all = 60
         self.initUI()
 
     def initUI(self):
@@ -83,7 +79,7 @@ class Tamagotchi(QWidget):
         self.all_text = QLineEdit()
         self.all_text.setReadOnly(True)
         self.hbox3.addWidget(self.all_text)
-        self.all_text.setText("■" * 60)
+        self.all_text.setText("■" * (self.all))
 
         self.hbox4 = QHBoxLayout()
         self.hbox4.addWidget(QLabel('배 부 름 '))
@@ -126,7 +122,8 @@ class Tamagotchi(QWidget):
         key = self.sender().text()
 
         if key == '공부시키기':
-            self.cnt += 1
+            self.cnt += 1 # 공부 횟수 카운팅
+            # 스트레스 게이지바 업데이
             if (self.stress + 18 >= 60):
                 self.stress = 60
                 self.stress_text.setText("■" * (self.stress))
@@ -135,13 +132,50 @@ class Tamagotchi(QWidget):
                 self.stress += 18
                 self.stress_text.setText("■" * (self.stress))
                 self.status_text.setText("공부중~")
+            # 스트레스 게이지를 종합 게이지에 반영
+            if (self.stress >= 42):
+                if (self.all - 6 <= 0):
+                    self.all = 0
+                    self.all_text.setText("■" * (self.all))
+                else:
+                    self.all -= 6
+                    self.all_text.setText("■" * (self.all))
+            elif (self.stress < 18):
+                if (self.all + 6 >= 60):
+                    self.all = 60
+                    self.all_text.setText("■" * (self.all))
+                else:
+                    self.all += 6
+                    self.all_text.setText("■" * (self.all))
+            # 공부 7번 하면 나이 + 1
             if self.cnt % 7 == 0:
                 self.age += 1
                 self.age_output.setText(str(self.age))
         elif key == '놀아주기':
             if (self.stress - 9 <= 0):
                 self.stress = 0
-            else: self.stress -= 9
+                self.stress_text.setText("■" * (self.stress))
+                self.status_text.setText("노는중~")
+            else:
+                self.stress -= 9
+                self.stress_text.setText("■" * (self.stress))
+                self.status_text.setText("노는중~")
+
+            # 스트레스 게이지를 종합 게이지에 반영
+            if (self.stress >= 42):
+                if (self.all - 6 <= 0):
+                    self.all = 0
+                    self.all_text.setText("■" * (self.all))
+                else:
+                    self.all -= 6
+                    self.all_text.setText("■" * (self.all))
+            elif (self.stress < 18):
+                if (self.all + 6 >= 60):
+                    self.all = 60
+                    self.all_text.setText("■" * (self.all))
+                else:
+                    self.all += 6
+                    self.all_text.setText("■" * (self.all))
 
 
 if __name__ == '__main__':
