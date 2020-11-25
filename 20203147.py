@@ -38,13 +38,6 @@ class Tamagotchi(QWidget):
         self.playButton.clicked.connect(self.button_clicked)
         self.studyButton = QPushButton('공부시키기')
         self.studyButton.clicked.connect(self.button_clicked)
-        self.age_label = QLabel('나이 : ', self)
-        self.age_label.move(190, 9)
-        self.age_output = QLineEdit(self)
-        self.age_output.setReadOnly(True)
-        self.age_output.move(230,9)
-        self.age_output.resize(30,30)
-        self.age_output.setText(str(self.age))
 
         self.vbox = QVBoxLayout()
 
@@ -54,6 +47,14 @@ class Tamagotchi(QWidget):
         self.status_text.setReadOnly(True)
         self.hbox0.addWidget(self.status_text)
         self.hbox0.addStretch(1)
+        self.age_label = QLabel('나이 : ', self)
+        self.age_output = QLineEdit(self)
+        self.age_output.setReadOnly(True)
+        self.age_output.setText(str(self.age))
+        self.hbox0.addWidget(self.age_label)
+        self.hbox0.addWidget(self.age_output)
+        self.hbox0.addStretch(1)
+        self.age_output.setText(str(self.age))
 
         self.hbox1 = QHBoxLayout()
         self.hbox1.addWidget(QLabel('다마고치'))
@@ -79,7 +80,7 @@ class Tamagotchi(QWidget):
         self.all_text = QLineEdit()
         self.all_text.setReadOnly(True)
         self.hbox3.addWidget(self.all_text)
-        self.all_text.setText("■" * (self.all))
+        self.all_text.setText("■" * (self.all) + str(int(self.all * 1.66666667)) + "%")
 
         self.hbox4 = QHBoxLayout()
         self.hbox4.addWidget(QLabel('배 부 름 '))
@@ -126,56 +127,58 @@ class Tamagotchi(QWidget):
             # 스트레스 게이지바 업데이
             if (self.stress + 18 >= 60):
                 self.stress = 60
-                self.stress_text.setText("■" * (self.stress))
+                self.stress_text.setText("■" * (self.stress) + str(int(self.stress * 1.66666667)) + "%")
                 self.status_text.setText("공부중~")
             else:
                 self.stress += 18
-                self.stress_text.setText("■" * (self.stress))
+                self.stress_text.setText("■" * (self.stress) + str(int(self.stress * 1.66666667)) + "%")
                 self.status_text.setText("공부중~")
             # 스트레스 게이지를 종합 게이지에 반영
             if (self.stress >= 42):
                 if (self.all - 6 <= 0):
                     self.all = 0
-                    self.all_text.setText("■" * (self.all))
+                    self.all_text.setText("■" * (self.all) + str(int(self.stress * 1.66666667)) + "%")
                 else:
                     self.all -= 6
-                    self.all_text.setText("■" * (self.all))
+                    self.all_text.setText("■" * (self.all) + str(int(self.stress * 1.66666667)) + "%")
             elif (self.stress < 18):
                 if (self.all + 6 >= 60):
                     self.all = 60
-                    self.all_text.setText("■" * (self.all))
+                    self.all_text.setText("■" * (self.all) + str(int(self.stress * 1.66666667)) + "%")
                 else:
                     self.all += 6
-                    self.all_text.setText("■" * (self.all))
+                    self.all_text.setText("■" * (self.all) + str(int(self.stress * 1.66666667)) + "%")
             # 공부 7번 하면 나이 + 1
             if self.cnt % 7 == 0:
                 self.age += 1
                 self.age_output.setText(str(self.age))
+
+                
         elif key == '놀아주기':
             if (self.stress - 9 <= 0):
                 self.stress = 0
-                self.stress_text.setText("■" * (self.stress))
+                self.stress_text.setText("■" * (self.stress) + str(int(self.stress * 1.66666667)) + "%")
                 self.status_text.setText("노는중~")
             else:
                 self.stress -= 9
-                self.stress_text.setText("■" * (self.stress))
+                self.stress_text.setText("■" * (self.stress) + str(int(self.stress * 1.66666667)) + "%")
                 self.status_text.setText("노는중~")
 
             # 스트레스 게이지를 종합 게이지에 반영
             if (self.stress >= 42):
                 if (self.all - 6 <= 0):
                     self.all = 0
-                    self.all_text.setText("■" * (self.all))
+                    self.all_text.setText("■" * (self.all) + str(int(self.stress * 1.66666667)) + "%")
                 else:
                     self.all -= 6
-                    self.all_text.setText("■" * (self.all))
+                    self.all_text.setText("■" * (self.all) + str(int(self.stress * 1.66666667)) + "%")
             elif (self.stress < 18):
                 if (self.all + 6 >= 60):
                     self.all = 60
-                    self.all_text.setText("■" * (self.all))
+                    self.all_text.setText("■" * (self.all) + str(int(self.stress * 1.66666667)) + "%")
                 else:
                     self.all += 6
-                    self.all_text.setText("■" * (self.all))
+                    self.all_text.setText("■" * (self.all) + str(int(self.stress * 1.66666667)) + "%")
 
 
 if __name__ == '__main__':
