@@ -167,7 +167,7 @@ class Tamagotchi(QWidget):
             self.clean_text.setText(self.action.washing(-10))
             self.tired_text.setText(self.action.sleeping(-10))
             self.status_text.setText("공부중~")
-            self.age_output.setText(str(self.age))
+            self.age_output.setText(str(self.action.age))
             self.all_text.setText(self.action.currentAll)
 
         elif key == '놀아주기':
