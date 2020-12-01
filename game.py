@@ -31,6 +31,7 @@ class Game(QWidget):
         self.all = 50
         self.face = "face_smile.png"
         self.endGame = False
+        self.startGame = True
 
         self.initUI()
 
@@ -50,7 +51,12 @@ class Game(QWidget):
         self.hbox0.addWidget(self.age_output)
         self.hbox0.addWidget(self.age_label2)
 
-        self.hbox0.addWidget(QLabel(' 다마고치는 '))
+        self.name_text = QLineEdit(self)
+        self.name_text.setReadOnly(True)
+        self.name_text.setFixedWidth(55)
+        self.hbox0.addWidget(self.name_text)
+
+        self.hbox0.addWidget(QLabel(' 는 '))
         self.status_text = QLineEdit()
         self.status_text.setReadOnly(True)
         self.status_text.setFixedWidth(80)
@@ -108,6 +114,9 @@ class Game(QWidget):
         for hbox in layoutGroups:
             self.vbox.addLayout(hbox)
         self.setLayout(self.vbox)
+
+        if self.startGame == True:
+            self.nameInput()
 
         self.show()
 
@@ -173,7 +182,6 @@ class Game(QWidget):
         if self.age == 5:
             self.clearGame()
 
-
     # 게임 오버 메세지 창
     def endingLife(self):
         QMessageBox.about(self, 'GAME OVER!', 'Game Over,,, 너 때문이야,,,༼ つ ◕_◕ ༽つ༼ つ ◕_◕ ༽つ')
@@ -181,6 +189,17 @@ class Game(QWidget):
     def clearGame(self):
         QMessageBox.about(self, 'GAME CLEAR!',"""키워주셔서 감사합니다 ٩(*´∀`*)۶
         이제 저는 저 넓은 세상 밖으로 나갈 거에요! 신난다!""")
+
+    def nameInput(self):
+        name, ok = QInputDialog.getText(self, '이름을 정해주세요', '♡✧。°₊·다마고치의 이름은‧₊°。✧♡')
+
+        if ok == True:
+            if len(str(name)) == 0 or len(str(name)) > 4:
+                self.name_text.setText('다마고치')
+            else:
+                self.name_text.setText(str(name))
+            self.startGame = False
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
