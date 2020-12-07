@@ -1,6 +1,6 @@
-import unittest
+import unittest # unittest 모듈 import
 
-from action import Action
+from action import Action # Action 모듈 import
 
 class TestAction(unittest.TestCase):
 
